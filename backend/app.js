@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser");
 const { sequelize } = require('./models/models'); 
 
 const app = express();
-const port = 3177;
+const port = process.env.PORT || 3177;
 
 dotenv.config();
 
@@ -46,6 +46,7 @@ app.use("/user", require("./routers/userRouter"));
 app.use("/bank", require("./routers/bankRouter"));
 app.use("/camps", require("./routers/campRouter"));
 
-app.listen(port, () =>
-	console.log(`Server running at http://localhost:${port}`)
+app.listen(port, "0.0.0.0", () =>
+    console.log(`Server running on port ${port}`)
 );
+	
