@@ -8,9 +8,20 @@ function AuthContextProvider(props) {
   const [user, setUser] = useState([]);
 
   async function getLoggedIn() {
-    const loggedInRes = await axios.get(process.env.REACT_APP_API_URL, { withCredentials: true });
-    setLoggedIn(loggedInRes.data.auth);
-    setUser(loggedInRes.data.user);
+    try {
+      // FIX 1: Use backticks (`) and ${} to evaluate the environment variable
+      const loggedInRes = await axios.get(`${process.env.REACT_APP_API_URL}/auth/loggedIn`, { 
+        withCredentials: true 
+      });
+      
+      setLoggedIn(loggedInRes.data.auth);
+      setUser(loggedInRes.data.user);
+    } catch (error) {
+      // FIX 2: If the network fails, safely set loggedIn to false instead of crashing
+      console.error("Auth check failed:", error);
+      setLoggedIn(false);
+      setUser(null);
+    }
   }
 
   useEffect(() => {
