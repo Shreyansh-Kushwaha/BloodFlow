@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: [
-			"https://bloodflow-551e.onrender.com",
+			"https://bloodflow-management.vercel.app",
 		],
 		credentials: true,
 	})
