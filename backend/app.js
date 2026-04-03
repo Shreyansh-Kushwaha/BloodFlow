@@ -1,0 +1,47 @@
+const express = require('express');
+const cors = require("cors");
+const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+
+// 1. Import your Sequelize instance 
+// (Make sure this path points to where you saved your new MySQL models!)
+const { sequelize } = require('./models/models'); 
+
+const app = express();
+const port = 3177;
+
+dotenv.config();
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(
+	cors({
+		origin: [
+			"http://localhost:3000",
+		],
+		credentials: true,
+	})
+);
+
+// 2. Connect to MySQL via Sequelize instead of Mongoose
+sequelize.authenticate()
+	.then(() => {
+		console.log("Connected successfully to MySQL database.");
+        
+        // Optional: If you want Sequelize to automatically create/update your tables, 
+        // uncomment the line below. Use { alter: true } carefully in production!
+        return sequelize.sync({ alter: true }); 
+	})
+	.catch((error) => {
+		console.error("Unable to connect to the database:", error);
+	});
+
+// Your routers stay exactly the same here
+app.use("/auth", require("./routers/authRouter"));
+app.use("/user", require("./routers/userRouter"));
+app.use("/bank", require("./routers/bankRouter"));
+app.use("/camps", require("./routers/campRouter"));
+
+app.listen(port, () =>
+	console.log(`Server running at http://localhost:${port}`)
+);
