@@ -15,12 +15,15 @@ dotenv.config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(
-	cors({
-		origin: [
-			"https://bloodflow-management.vercel.app",
-		],
-		credentials: true,
-	})
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://bloodflow-management.vercel.app" 
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"]
+  })
 );
 
 // 2. Connect to MySQL via Sequelize instead of Mongoose
