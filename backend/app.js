@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: [
-			"http://localhost:3000",
+			"https://bloodflow-551e.onrender.com",
 		],
 		credentials: true,
 	})
