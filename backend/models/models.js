@@ -15,6 +15,7 @@ const sequelize = new Sequelize(
         // If your connection is rejected, add the following:
         dialectOptions: {
             ssl: {
+                require: true,
                 rejectUnauthorized: false
             }
         }
